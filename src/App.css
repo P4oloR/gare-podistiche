@@ -195,3 +195,34 @@ body { min-height: 100vh; }
 
 .gara-card.annullata { opacity: 0.4; }
 .gara-card.annullata .gara-name { text-decoration: line-through; }
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+.footer p {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text3);
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.footer a {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.footer a:hover { border-bottom-color: var(--accent); }
+.footer-copy {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text3);
+}

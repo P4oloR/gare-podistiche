@@ -195,6 +195,12 @@ export default function App() {
           </div>
         ))}
       </div>
+
+      <footer className="footer">
+        <p>Conosci una gara non in elenco? Segnalacela!</p>
+        <a href="mailto:calendariogare@outlook.com">calendariogare@outlook.com</a>
+        <div className="footer-copy">RunMap Italia — Calendario gare podistiche</div>
+      </footer>
     </>
   )
 }
