@@ -55,7 +55,23 @@ function GaraCard({ gara }) {
   )
 }
 
+function PageContatti() {
+  return (
+    <div className="contatti-page">
+      <div className="contatti-inner">
+        <h2 className="contatti-title">Contatti</h2>
+        <p className="contatti-sub">Conosci una gara non in elenco? Segnalacela, la aggiungeremo al calendario il prima possibile.</p>
+        <a className="contatti-email" href="mailto:calendariogare@outlook.com">
+          calendariogare@outlook.com
+        </a>
+        <p className="contatti-note">Indica nome della gara, data, città e link ufficiale. Risponderemo entro 48 ore.</p>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
+  const [page, setPage] = useState('home')
   const [gare, setGare] = useState([])
   const [loading, setLoading] = useState(true)
   const [regione, setRegione] = useState('')
@@ -128,79 +144,89 @@ export default function App() {
   return (
     <>
       <header className="header">
-        <div className="logo">
-          <div className="logo-dot" />
-          RUNMAP ITALIA
+        <div className="header-left">
+          <div className="logo" onClick={() => setPage('home')} style={{cursor:'pointer'}}>
+            <div className="logo-dot" />
+            RUNMAP ITALIA
+          </div>
+          <nav className="nav">
+            <button className={`nav-btn${page === 'home' ? ' nav-active' : ''}`} onClick={() => setPage('home')}>Calendario</button>
+            <button className={`nav-btn${page === 'contatti' ? ' nav-active' : ''}`} onClick={() => setPage('contatti')}>Contatti</button>
+          </nav>
         </div>
         <div className="header-count">{loading ? '...' : `${gare.length} gare in archivio`}</div>
       </header>
 
-      <section className="hero">
-        <h1>GARE<br />PODISTICHE<br /><span>ITALIA</span></h1>
-        <p>Tutte le gare su strada, trail e cronometrica in un unico calendario. Filtra per regione, distanza e tipologia.</p>
-      </section>
+      {page === 'contatti' ? <PageContatti /> : (
+        <>
+          <section className="hero">
+            <h1>GARE<br />PODISTICHE<br /><span>ITALIA</span></h1>
+            <p>Tutte le gare su strada, trail e cronometrica in un unico calendario. Filtra per regione, distanza e tipologia.</p>
+          </section>
 
-      <div className="filters-wrap">
-        <div className="filters">
-          <div className="filter-group">
-            <label>Cerca</label>
-            <input type="text" placeholder="Nome gara o città..." value={search} onChange={e => setSearch(e.target.value)} />
+          <div className="filters-wrap">
+            <div className="filters">
+              <div className="filter-group">
+                <label>Cerca</label>
+                <input type="text" placeholder="Nome gara o città..." value={search} onChange={e => setSearch(e.target.value)} />
+              </div>
+              <div className="filter-group">
+                <label>Regione</label>
+                <select value={regione} onChange={e => { setRegione(e.target.value); setProvincia('') }}>
+                  <option value="">Tutte le regioni</option>
+                  {regioni.map(r => <option key={r} value={r}>{r}</option>)}
+                </select>
+              </div>
+              <div className="filter-group">
+                <label>Provincia</label>
+                <select value={provincia} onChange={e => setProvincia(e.target.value)} disabled={!regione}>
+                  <option value="">Tutte le province</option>
+                  {province.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+              <div className="filter-group">
+                <label>Distanza</label>
+                <select value={kmRange} onChange={e => setKmRange(e.target.value)}>
+                  {KM_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                </select>
+              </div>
+              <div className="tipo-row">
+                {['', 'strada', 'trail', 'cronometrica', 'pista'].map(t => (
+                  <button key={t} className={`tipo-btn${tipologia === t ? ` active-${t || 'all'}` : ''}`} onClick={() => setTipologia(t)}>
+                    {t === '' ? 'Tutte' : t.charAt(0).toUpperCase() + t.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="filter-group">
-            <label>Regione</label>
-            <select value={regione} onChange={e => { setRegione(e.target.value); setProvincia('') }}>
-              <option value="">Tutte le regioni</option>
-              {regioni.map(r => <option key={r} value={r}>{r}</option>)}
-            </select>
-          </div>
-          <div className="filter-group">
-            <label>Provincia</label>
-            <select value={provincia} onChange={e => setProvincia(e.target.value)} disabled={!regione}>
-              <option value="">Tutte le province</option>
-              {province.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-          </div>
-          <div className="filter-group">
-            <label>Distanza</label>
-            <select value={kmRange} onChange={e => setKmRange(e.target.value)}>
-              {KM_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-          </div>
-          <div className="tipo-row">
-            {['', 'strada', 'trail', 'cronometrica', 'pista'].map(t => (
-              <button key={t} className={`tipo-btn${tipologia === t ? ` active-${t || 'all'}` : ''}`} onClick={() => setTipologia(t)}>
-                {t === '' ? 'Tutte' : t.charAt(0).toUpperCase() + t.slice(1)}
-              </button>
+
+          <div className="results-wrap">
+            <div className="results-meta">
+              <h2>Risultati</h2>
+              <span>{filtered.length} gare trovate</span>
+            </div>
+            {loading && <div className="loading"><span /><span /><span /></div>}
+            {!loading && filtered.length === 0 && (
+              <div className="empty-state">
+                <h3>Nessuna gara trovata</h3>
+                <p>Prova a modificare i filtri di ricerca</p>
+              </div>
+            )}
+            {!loading && monthKeys.map(key => (
+              <div className="month-block" key={key}>
+                <div className="month-label">{monthLabel(key)}</div>
+                {byMonth[key].map(g => <GaraCard key={g.id} gara={g} />)}
+              </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      <div className="results-wrap">
-        <div className="results-meta">
-          <h2>Risultati</h2>
-          <span>{filtered.length} gare trovate</span>
-        </div>
-        {loading && <div className="loading"><span /><span /><span /></div>}
-        {!loading && filtered.length === 0 && (
-          <div className="empty-state">
-            <h3>Nessuna gara trovata</h3>
-            <p>Prova a modificare i filtri di ricerca</p>
-          </div>
-        )}
-        {!loading && monthKeys.map(key => (
-          <div className="month-block" key={key}>
-            <div className="month-label">{monthLabel(key)}</div>
-            {byMonth[key].map(g => <GaraCard key={g.id} gara={g} />)}
-          </div>
-        ))}
-      </div>
-
-      <footer className="footer">
-        <p>Conosci una gara non in elenco? Segnalacela!</p>
-        <a href="mailto:calendariogare@outlook.com">calendariogare@outlook.com</a>
-        <div className="footer-copy">RunMap Italia — Calendario gare podistiche</div>
-      </footer>
+          <footer className="footer">
+            <p>Conosci una gara non in elenco? Segnalacela!</p>
+            <a href="mailto:calendariogare@outlook.com">calendariogare@outlook.com</a>
+            <div className="footer-copy">RunMap Italia — Calendario gare podistiche</div>
+          </footer>
+        </>
+      )}
     </>
   )
 }
