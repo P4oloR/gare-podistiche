@@ -21,36 +21,77 @@ function formatData(dateStr) {
 }
 
 function GaraCard({ gara }) {
+  const [expanded, setExpanded] = useState(false)
   const { day, mon } = formatData(gara.data)
   const tipo = (gara.tipologia || '').toLowerCase()
   const annullata = gara.annullata === 'SI' || gara.annullata === true
+  const hasContatti = gara.url || gara.telefono || gara.mail
 
-  const handleClick = () => {
-    if (gara.url) window.open(gara.url.startsWith('http') ? gara.url : 'https://' + gara.url, '_blank')
+  const normalizeUrl = (url) => {
+    if (!url) return null
+    url = url.trim()
+    if (url.toLowerCase().startsWith('http')) return url
+    if (url.toLowerCase().startsWith('www')) return 'https://' + url
+    if (url.includes('.') && !url.includes(' ')) return 'https://' + url
+    return null
   }
 
   return (
-    <div className={`gara-card${annullata ? ' annullata' : ''}`} onClick={handleClick}>
-      <div className="gara-date">
-        <div className="day">{day}</div>
-        <div className="mon">{mon}</div>
-      </div>
-      <div className="gara-info">
-        <div className="gara-name">{gara.nome}</div>
-        <div className="gara-meta">
-          <span>📍 {gara.citta}{gara.provincia ? `, ${gara.provincia}` : ''}</span>
-          {gara.regione && <span>{gara.regione}</span>}
-          <span className={`badge badge-${tipo}`}>{gara.tipologia || '—'}</span>
-          {annullata && <span className="badge" style={{background:'rgba(255,80,80,0.15)',color:'#f06060',border:'1px solid rgba(255,80,80,0.3)'}}>Annullata</span>}
+    <div className={`gara-card${annullata ? ' annullata' : ''}${expanded ? ' expanded' : ''}`}>
+      <div className="gara-card-main" onClick={() => hasContatti && setExpanded(!expanded)}>
+        <div className="gara-date">
+          <div className="day">{day}</div>
+          <div className="mon">{mon}</div>
+        </div>
+        <div className="gara-info">
+          <div className="gara-name">{gara.nome}</div>
+          <div className="gara-meta">
+            <span>📍 {gara.citta}{gara.provincia ? `, ${gara.provincia}` : ''}</span>
+            {gara.regione && <span>{gara.regione}</span>}
+            <span className={`badge badge-${tipo}`}>{gara.tipologia || '—'}</span>
+            {annullata && <span className="badge badge-annullata">Annullata</span>}
+          </div>
+        </div>
+        <div className="gara-right">
+          {gara.km ? (
+            <div className="gara-km">{parseFloat(gara.km) % 1 === 0 ? parseInt(gara.km) : parseFloat(gara.km)}<span> km</span></div>
+          ) : (
+            <div className="gara-km" style={{fontSize:'14px',color:'var(--text3)'}}>—</div>
+          )}
+          {hasContatti && (
+            <div className="expand-icon">{expanded ? '▲' : '▼'}</div>
+          )}
         </div>
       </div>
-      <div className="gara-right">
-        {gara.km ? (
-          <div className="gara-km">{parseFloat(gara.km) % 1 === 0 ? parseInt(gara.km) : parseFloat(gara.km)}<span> km</span></div>
-        ) : (
-          <div className="gara-km" style={{fontSize:'14px',color:'var(--text3)'}}>—</div>
-        )}
-      </div>
+
+      {expanded && hasContatti && (
+        <div className="gara-contatti">
+          {normalizeUrl(gara.url) && (
+            <a className="contatto-item contatto-url" href={normalizeUrl(gara.url)} target="_blank" rel="noreferrer">
+              <span className="contatto-icon">🌐</span>
+              <span>{gara.url.replace(/^https?:\/\//,'').replace(/^www\./,'').split('/')[0]}</span>
+            </a>
+          )}
+          {gara.mail && (
+            <a className="contatto-item contatto-mail" href={`mailto:${gara.mail}`}>
+              <span className="contatto-icon">✉</span>
+              <span>{gara.mail}</span>
+            </a>
+          )}
+          {gara.telefono && (
+            <a className="contatto-item contatto-tel" href={`tel:${gara.telefono.replace(/\s/g,'')}`}>
+              <span className="contatto-icon">📞</span>
+              <span>{gara.telefono}</span>
+            </a>
+          )}
+          {gara.organizzatore && (
+            <div className="contatto-item contatto-org">
+              <span className="contatto-icon">🏃</span>
+              <span>{gara.organizzatore}</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -61,9 +102,7 @@ function PageContatti() {
       <div className="contatti-inner">
         <h2 className="contatti-title">Contatti</h2>
         <p className="contatti-sub">Conosci una gara non in elenco? Segnalacela, la aggiungeremo al calendario il prima possibile.</p>
-        <a className="contatti-email" href="mailto:calendariogare@outlook.com">
-          calendariogare@outlook.com
-        </a>
+        <a className="contatti-email" href="mailto:calendariogare@outlook.com">calendariogare@outlook.com</a>
         <p className="contatti-note">Indica nome della gara, data, città e link ufficiale. Risponderemo entro 48 ore.</p>
       </div>
     </div>

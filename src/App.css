@@ -295,3 +295,59 @@ body { min-height: 100vh; }
   color: var(--text3);
   line-height: 1.6;
 }
+
+/* CARD ESPANDIBILE */
+.gara-card { flex-direction: column; padding: 0; }
+.gara-card-main {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  width: 100%;
+}
+.gara-card:not(.expanded) .gara-card-main { cursor: default; }
+.gara-card:has(.gara-contatti) .gara-card-main { cursor: pointer; }
+
+.expand-icon {
+  font-size: 9px;
+  color: var(--text3);
+  margin-top: 6px;
+  text-align: right;
+}
+
+.gara-contatti {
+  border-top: 1px solid var(--border);
+  padding: 0.875rem 1.25rem 0.875rem calc(64px + 1.25rem + 1.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contatto-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  text-decoration: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.contatto-icon { font-size: 12px; }
+a.contatto-item:hover { border-color: var(--border-hover); color: var(--text); }
+.contatto-url:hover { color: var(--accent) !important; border-color: rgba(232,240,74,0.4) !important; }
+.contatto-mail:hover { color: var(--accent2) !important; border-color: rgba(74,240,168,0.4) !important; }
+.contatto-tel:hover { color: var(--trail) !important; border-color: rgba(240,168,74,0.4) !important; }
+.badge-annullata { background: rgba(255,80,80,0.15); color: #f06060; border: 1px solid rgba(255,80,80,0.3); }
+
+@media (max-width: 600px) {
+  .gara-card-main { grid-template-columns: 52px 1fr; }
+  .gara-card-main .gara-right { display: none; }
+  .gara-contatti { padding-left: 1.25rem; }
+}
