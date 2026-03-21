@@ -1,52 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0a0a0a;
-  --bg2: #111111;
-  --bg3: #181818;
-  --border: rgba(255,255,255,0.07);
-  --border-hover: rgba(255,255,255,0.15);
-  --accent: #e8f04a;
-  --accent2: #4af0a8;
-  --text: #f0ede6;
-  --text2: #888;
-  --text3: #555;
-  --strada: #4af0a8;
-  --trail: #f0a84a;
-  --cronometrica: #a84af0;
-  --pista: #4a9af0;
-  --radius: 4px;
+  --bg: #0f1117;
+  --bg2: #1a1d27;
+  --bg3: #22263a;
+  --border: rgba(255,255,255,0.08);
+  --border-hover: rgba(255,255,255,0.18);
+  --accent: #6ee7f7;
+  --accent2: #a78bfa;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #475569;
+  --strada: #34d399;
+  --trail: #fb923c;
+  --cronometrica: #a78bfa;
+  --pista: #38bdf8;
+  --radius: 12px;
   --font-display: 'Barlow Condensed', sans-serif;
-  --font-body: 'Barlow', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 html { background: var(--bg); color: var(--text); font-family: var(--font-body); }
 body { min-height: 100vh; }
 
+/* HEADER */
 .header {
   border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 60px;
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(15,17,23,0.92);
+  backdrop-filter: blur(16px);
   z-index: 100;
 }
+.header-left { display: flex; align-items: center; gap: 1.5rem; }
 .logo {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   color: var(--text);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .logo-dot {
   width: 8px; height: 8px;
@@ -56,40 +58,59 @@ body { min-height: 100vh; }
 }
 @keyframes pulse {
   0%,100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.7; }
+  50% { transform: scale(1.5); opacity: 0.6; }
 }
-.header-count { font-size: 13px; color: var(--text3); font-family: var(--font-display); letter-spacing: 0.05em; }
+.header-count { font-size: 13px; color: var(--text3); font-family: var(--font-body); }
 
-.hero { padding: 4rem 2rem 2rem; max-width: 1100px; margin: 0 auto; }
+/* NAV */
+.nav { display: flex; gap: 4px; }
+.nav-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.nav-btn:hover { color: var(--text); border-color: var(--border); }
+.nav-btn.nav-active { color: var(--accent); border-color: rgba(110,231,247,0.3); background: rgba(110,231,247,0.08); }
+
+/* HERO */
+.hero { padding: 3rem 1.5rem 2rem; max-width: 1000px; margin: 0 auto; }
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(48px, 8vw, 96px);
+  font-size: clamp(52px, 9vw, 100px);
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: -0.01em;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 .hero h1 span { color: var(--accent); }
-.hero p { font-size: 16px; color: var(--text2); font-weight: 300; max-width: 480px; line-height: 1.6; }
+.hero p { font-size: 15px; color: var(--text2); font-weight: 400; max-width: 440px; line-height: 1.7; }
 
-.filters-wrap { max-width: 1100px; margin: 2rem auto 0; padding: 0 2rem; }
+/* FILTRI */
+.filters-wrap { max-width: 1000px; margin: 2rem auto 0; padding: 0 1.5rem; }
 .filters {
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 1rem;
+  gap: 12px;
   align-items: end;
 }
 @media (max-width: 768px) { .filters { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .filters { grid-template-columns: 1fr; } }
 
-.filter-group { display: flex; flex-direction: column; gap: 6px; }
+.filter-group { display: flex; flex-direction: column; gap: 5px; }
 .filter-group label {
-  font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--text3);
@@ -98,7 +119,7 @@ body { min-height: 100vh; }
 .filter-group select, .filter-group input {
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 8px;
   color: var(--text);
   font-family: var(--font-body);
   font-size: 14px;
@@ -111,229 +132,167 @@ body { min-height: 100vh; }
 }
 .filter-group select:focus, .filter-group input:focus { border-color: var(--accent); }
 
-.tipo-row { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
+/* TIPO BUTTONS */
+.tipo-row { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; }
 .tipo-btn {
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
   border-radius: 100px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text2);
   cursor: pointer;
   transition: all 0.15s;
-  text-transform: uppercase;
 }
 .tipo-btn:hover { border-color: var(--border-hover); color: var(--text); }
-.tipo-btn.active-all { background: var(--accent); color: #000; border-color: var(--accent); }
-.tipo-btn.active-strada { background: var(--strada); color: #000; border-color: var(--strada); }
-.tipo-btn.active-trail { background: var(--trail); color: #000; border-color: var(--trail); }
-.tipo-btn.active-cronometrica { background: var(--cronometrica); color: #fff; border-color: var(--cronometrica); }
-.tipo-btn.active-pista { background: var(--pista); color: #000; border-color: var(--pista); }
+.tipo-btn.active-all { background: var(--accent); color: #0f1117; border-color: var(--accent); font-weight: 600; }
+.tipo-btn.active-strada { background: var(--strada); color: #0f1117; border-color: var(--strada); font-weight: 600; }
+.tipo-btn.active-trail { background: var(--trail); color: #0f1117; border-color: var(--trail); font-weight: 600; }
+.tipo-btn.active-cronometrica { background: var(--cronometrica); color: #0f1117; border-color: var(--cronometrica); font-weight: 600; }
+.tipo-btn.active-pista { background: var(--pista); color: #0f1117; border-color: var(--pista); font-weight: 600; }
 
-.results-wrap { max-width: 1100px; margin: 2rem auto 4rem; padding: 0 2rem; }
-.results-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-.results-meta h2 { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
-.results-meta span { font-family: var(--font-display); font-size: 13px; color: var(--text3); }
+/* RISULTATI */
+.results-wrap { max-width: 1000px; margin: 2rem auto 4rem; padding: 0 1.5rem; }
+.results-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.results-meta h2 { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+.results-meta span { font-size: 12px; color: var(--text3); }
 
+/* MONTH BLOCK */
 .month-block { margin-bottom: 2.5rem; }
 .month-label {
   font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   color: var(--text3);
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.75rem;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
   text-transform: uppercase;
 }
 
+/* GARA CARD */
 .gara-card {
-  display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 1.25rem;
-  align-items: center;
-  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  margin-bottom: 6px;
-  background: var(--bg2);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.gara-card:hover { border-color: var(--border-hover); background: var(--bg3); }
-@media (max-width: 600px) { .gara-card { grid-template-columns: 52px 1fr; } .gara-right { display: none; } }
-
-.gara-date { text-align: center; }
-.gara-date .day { font-family: var(--font-display); font-size: 28px; font-weight: 800; line-height: 1; color: var(--text); }
-.gara-date .mon { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--text3); text-transform: uppercase; }
-
-.gara-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; letter-spacing: 0.01em; color: var(--text); margin-bottom: 4px; line-height: 1.2; }
-.gara-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.gara-meta span { font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 4px; }
-
-.badge { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 100px; text-transform: uppercase; }
-.badge-strada   { background: rgba(74,240,168,0.15); color: var(--strada); border: 1px solid rgba(74,240,168,0.3); }
-.badge-trail    { background: rgba(240,168,74,0.15); color: var(--trail); border: 1px solid rgba(240,168,74,0.3); }
-.badge-cronometrica { background: rgba(168,74,240,0.15); color: var(--cronometrica); border: 1px solid rgba(168,74,240,0.3); }
-.badge-pista    { background: rgba(74,154,240,0.15); color: var(--pista); border: 1px solid rgba(74,154,240,0.3); }
-
-.gara-right { text-align: right; }
-.gara-km { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--text); line-height: 1; }
-.gara-km span { font-size: 12px; font-weight: 400; color: var(--text3); }
-
-.empty-state { text-align: center; padding: 4rem 2rem; color: var(--text3); }
-.empty-state h3 { font-family: var(--font-display); font-size: 32px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text2); }
-.loading { display: flex; justify-content: center; align-items: center; padding: 4rem; gap: 8px; }
-.loading span { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: bounce 0.8s ease-in-out infinite; }
-.loading span:nth-child(2) { animation-delay: 0.15s; background: var(--accent2); }
-.loading span:nth-child(3) { animation-delay: 0.3s; }
-@keyframes bounce { 0%,100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-10px); opacity: 1; } }
-
-.gara-card.annullata { opacity: 0.4; }
-.gara-card.annullata .gara-name { text-decoration: line-through; }
-
-/* FOOTER */
-.footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem;
-  text-align: center;
-  margin-top: 2rem;
-}
-.footer p {
-  font-family: var(--font-display);
-  font-size: 14px;
-  color: var(--text3);
-  letter-spacing: 0.03em;
   margin-bottom: 8px;
+  background: var(--bg2);
+  transition: border-color 0.15s, background 0.15s;
+  overflow: hidden;
 }
-.footer a {
+.gara-card:hover { border-color: var(--border-hover); }
+
+.gara-card-main {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: default;
+}
+.gara-card:has(.expand-icon) .gara-card-main { cursor: pointer; }
+
+/* DATA */
+.gara-date { text-align: center; flex-shrink: 0; }
+.gara-date .day {
   font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
 }
-.footer a:hover { border-bottom-color: var(--accent); }
-.footer-copy {
-  margin-top: 16px;
+.gara-date .mon {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  text-transform: uppercase;
+}
+
+/* INFO GARA */
+.gara-info { min-width: 0; }
+.gara-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gara-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.gara-meta .luogo {
+  font-size: 13px;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.gara-meta .regione-label {
   font-size: 12px;
   color: var(--text3);
 }
 
-/* NAVIGAZIONE HEADER */
-.header-left { display: flex; align-items: center; gap: 2rem; }
-.nav { display: flex; gap: 4px; }
-.nav-btn {
-  font-family: var(--font-display);
-  font-size: 13px;
+/* BADGE */
+.badge {
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 3px 9px;
   border-radius: 100px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text3);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.nav-btn:hover { color: var(--text); border-color: var(--border); }
-.nav-btn.nav-active { color: var(--accent); border-color: rgba(232,240,74,0.3); background: rgba(232,240,74,0.08); }
-
-/* PAGINA CONTATTI */
-.contatti-page {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-}
-.contatti-inner {
-  max-width: 560px;
-}
-.contatti-title {
-  font-family: var(--font-display);
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  margin-bottom: 1.5rem;
   text-transform: uppercase;
+  flex-shrink: 0;
 }
-.contatti-sub {
-  font-size: 16px;
-  color: var(--text2);
-  font-weight: 300;
-  line-height: 1.7;
-  margin-bottom: 2rem;
-}
-.contatti-email {
-  display: inline-block;
+.badge-strada   { background: rgba(52,211,153,0.15); color: var(--strada); border: 1px solid rgba(52,211,153,0.3); }
+.badge-trail    { background: rgba(251,146,60,0.15); color: var(--trail); border: 1px solid rgba(251,146,60,0.3); }
+.badge-cronometrica { background: rgba(167,139,250,0.15); color: var(--cronometrica); border: 1px solid rgba(167,139,250,0.3); }
+.badge-pista    { background: rgba(56,189,248,0.15); color: var(--pista); border: 1px solid rgba(56,189,248,0.3); }
+.badge-annullata { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+
+/* KM + EXPAND */
+.gara-right { text-align: right; flex-shrink: 0; }
+.gara-km {
   font-family: var(--font-display);
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(232,240,74,0.4);
-  padding-bottom: 4px;
-  transition: border-color 0.15s;
-  margin-bottom: 1.5rem;
+  color: var(--text);
+  line-height: 1;
+  white-space: nowrap;
 }
-.contatti-email:hover { border-color: var(--accent); }
-.contatti-note {
-  font-size: 13px;
-  color: var(--text3);
-  line-height: 1.6;
-}
+.gara-km span { font-size: 11px; font-weight: 400; color: var(--text3); }
+.expand-icon { font-size: 9px; color: var(--text3); margin-top: 5px; }
 
-/* CARD ESPANDIBILE */
-.gara-card { flex-direction: column; padding: 0; }
-.gara-card-main {
-  display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 1.25rem;
-  align-items: center;
-  padding: 1rem 1.25rem;
-  cursor: pointer;
-  width: 100%;
-}
-.gara-card:not(.expanded) .gara-card-main { cursor: default; }
-.gara-card:has(.gara-contatti) .gara-card-main { cursor: pointer; }
-
-.expand-icon {
-  font-size: 9px;
-  color: var(--text3);
-  margin-top: 6px;
-  text-align: right;
-}
-
+/* CONTATTI ESPANSI */
 .gara-contatti {
   border-top: 1px solid var(--border);
-  padding: 0.875rem 1.25rem 0.875rem calc(64px + 1.25rem + 1.25rem);
+  padding: 10px 16px 10px calc(56px + 1rem + 16px);
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
+  background: var(--bg3);
 }
-
 .contatto-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 12px;
+  font-weight: 500;
   padding: 5px 12px;
   border-radius: 100px;
   border: 1px solid var(--border);
-  background: var(--bg3);
+  background: var(--bg2);
   color: var(--text2);
   text-decoration: none;
   transition: all 0.15s;
@@ -341,13 +300,46 @@ body { min-height: 100vh; }
 }
 .contatto-icon { font-size: 12px; }
 a.contatto-item:hover { border-color: var(--border-hover); color: var(--text); }
-.contatto-url:hover { color: var(--accent) !important; border-color: rgba(232,240,74,0.4) !important; }
-.contatto-mail:hover { color: var(--accent2) !important; border-color: rgba(74,240,168,0.4) !important; }
-.contatto-tel:hover { color: var(--trail) !important; border-color: rgba(240,168,74,0.4) !important; }
-.badge-annullata { background: rgba(255,80,80,0.15); color: #f06060; border: 1px solid rgba(255,80,80,0.3); }
+.contatto-url:hover  { color: var(--accent) !important; border-color: rgba(110,231,247,0.4) !important; }
+.contatto-mail:hover { color: var(--strada) !important; border-color: rgba(52,211,153,0.4) !important; }
+.contatto-tel:hover  { color: var(--trail) !important; border-color: rgba(251,146,60,0.4) !important; }
 
+/* EMPTY / LOADING */
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--text3); }
+.empty-state h3 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 0.5rem; color: var(--text2); }
+.empty-state p { font-size: 14px; }
+.loading { display: flex; justify-content: center; align-items: center; padding: 4rem; gap: 8px; }
+.loading span { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: bounce 0.8s ease-in-out infinite; }
+.loading span:nth-child(2) { animation-delay: 0.15s; background: var(--accent2); }
+.loading span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce { 0%,100% { transform: translateY(0); opacity: 0.3; } 50% { transform: translateY(-10px); opacity: 1; } }
+
+.gara-card.annullata { opacity: 0.45; }
+.gara-card.annullata .gara-name { text-decoration: line-through; }
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--border); padding: 2rem 1.5rem; text-align: center; }
+.footer p { font-size: 14px; color: var(--text3); margin-bottom: 8px; }
+.footer a { font-size: 15px; font-weight: 500; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+.footer a:hover { border-bottom-color: var(--accent); }
+.footer-copy { margin-top: 14px; font-size: 12px; color: var(--text3); }
+
+/* PAGINA CONTATTI */
+.contatti-page { max-width: 1000px; margin: 0 auto; padding: 4rem 1.5rem; min-height: 60vh; display: flex; align-items: center; }
+.contatti-inner { max-width: 520px; }
+.contatti-title { font-family: var(--font-display); font-size: clamp(44px, 6vw, 72px); font-weight: 800; line-height: 0.92; color: var(--text); margin-bottom: 1.5rem; text-transform: uppercase; }
+.contatti-sub { font-size: 16px; color: var(--text2); line-height: 1.7; margin-bottom: 2rem; }
+.contatti-email { display: inline-block; font-size: 20px; font-weight: 500; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(110,231,247,0.4); padding-bottom: 4px; transition: border-color 0.15s; margin-bottom: 1.5rem; }
+.contatti-email:hover { border-color: var(--accent); }
+.contatti-note { font-size: 13px; color: var(--text3); line-height: 1.6; }
+
+/* RESPONSIVE MOBILE */
 @media (max-width: 600px) {
-  .gara-card-main { grid-template-columns: 52px 1fr; }
-  .gara-card-main .gara-right { display: none; }
-  .gara-contatti { padding-left: 1.25rem; }
+  .gara-card-main { grid-template-columns: 48px 1fr; gap: 12px; padding: 12px 14px; }
+  .gara-right { display: none; }
+  .gara-name { font-size: 16px; white-space: normal; }
+  .gara-date .day { font-size: 26px; }
+  .gara-meta .luogo { max-width: 160px; }
+  .gara-contatti { padding-left: 14px; }
+  .header-count { display: none; }
 }

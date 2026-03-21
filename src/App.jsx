@@ -31,10 +31,11 @@ function GaraCard({ gara }) {
     if (!url) return null
     url = url.trim()
     if (url.toLowerCase().startsWith('http')) return url
-    if (url.toLowerCase().startsWith('www')) return 'https://' + url
-    if (url.includes('.') && !url.includes(' ')) return 'https://' + url
+    if (url.includes('.') && !url.includes(' ') && url.length > 4) return 'https://' + url
     return null
   }
+
+  const urlNorm = normalizeUrl(gara.url)
 
   return (
     <div className={`gara-card${annullata ? ' annullata' : ''}${expanded ? ' expanded' : ''}`}>
@@ -46,28 +47,25 @@ function GaraCard({ gara }) {
         <div className="gara-info">
           <div className="gara-name">{gara.nome}</div>
           <div className="gara-meta">
-            <span>📍 {gara.citta}{gara.provincia ? `, ${gara.provincia}` : ''}</span>
-            {gara.regione && <span>{gara.regione}</span>}
+            <span className="luogo">📍 {gara.citta}{gara.provincia ? `, ${gara.provincia}` : ''}</span>
+            {gara.regione && <span className="regione-label">{gara.regione}</span>}
             <span className={`badge badge-${tipo}`}>{gara.tipologia || '—'}</span>
             {annullata && <span className="badge badge-annullata">Annullata</span>}
           </div>
         </div>
         <div className="gara-right">
-          {gara.km ? (
-            <div className="gara-km">{parseFloat(gara.km) % 1 === 0 ? parseInt(gara.km) : parseFloat(gara.km)}<span> km</span></div>
-          ) : (
-            <div className="gara-km" style={{fontSize:'14px',color:'var(--text3)'}}>—</div>
-          )}
-          {hasContatti && (
-            <div className="expand-icon">{expanded ? '▲' : '▼'}</div>
-          )}
+          {gara.km
+            ? <div className="gara-km">{parseFloat(gara.km) % 1 === 0 ? parseInt(gara.km) : parseFloat(gara.km)}<span> km</span></div>
+            : <div className="gara-km" style={{fontSize:'13px',color:'var(--text3)'}}>—</div>
+          }
+          {hasContatti && <div className="expand-icon">{expanded ? '▲' : '▼'}</div>}
         </div>
       </div>
 
       {expanded && hasContatti && (
         <div className="gara-contatti">
-          {normalizeUrl(gara.url) && (
-            <a className="contatto-item contatto-url" href={normalizeUrl(gara.url)} target="_blank" rel="noreferrer">
+          {urlNorm && (
+            <a className="contatto-item contatto-url" href={urlNorm} target="_blank" rel="noreferrer">
               <span className="contatto-icon">🌐</span>
               <span>{gara.url.replace(/^https?:\/\//,'').replace(/^www\./,'').split('/')[0]}</span>
             </a>
@@ -85,7 +83,7 @@ function GaraCard({ gara }) {
             </a>
           )}
           {gara.organizzatore && (
-            <div className="contatto-item contatto-org">
+            <div className="contatto-item">
               <span className="contatto-icon">🏃</span>
               <span>{gara.organizzatore}</span>
             </div>
@@ -138,23 +136,21 @@ export default function App() {
     return [...new Set(src.map(g => g.provincia).filter(Boolean))].sort()
   }, [gare, regione])
 
-  const filtered = useMemo(() => {
-    return gare.filter(g => {
-      if (regione && g.regione !== regione) return false
-      if (provincia && g.provincia !== provincia) return false
-      if (tipologia && (g.tipologia || '').toLowerCase() !== tipologia) return false
-      if (search) {
-        const q = search.toLowerCase()
-        if (!(g.nome?.toLowerCase().includes(q) || g.citta?.toLowerCase().includes(q))) return false
-      }
-      if (kmRange) {
-        const [min, max] = kmRange.split('-').map(Number)
-        const km = parseFloat(g.km)
-        if (isNaN(km) || km < min || km > max) return false
-      }
-      return true
-    })
-  }, [gare, regione, provincia, tipologia, kmRange, search])
+  const filtered = useMemo(() => gare.filter(g => {
+    if (regione && g.regione !== regione) return false
+    if (provincia && g.provincia !== provincia) return false
+    if (tipologia && (g.tipologia || '').toLowerCase() !== tipologia) return false
+    if (search) {
+      const q = search.toLowerCase()
+      if (!(g.nome?.toLowerCase().includes(q) || g.citta?.toLowerCase().includes(q))) return false
+    }
+    if (kmRange) {
+      const [min, max] = kmRange.split('-').map(Number)
+      const km = parseFloat(g.km)
+      if (isNaN(km) || km < min || km > max) return false
+    }
+    return true
+  }), [gare, regione, provincia, tipologia, kmRange, search])
 
   const byMonth = useMemo(() => {
     const map = {}
